@@ -70,7 +70,7 @@ exports.createCheckout = function(req, res){
 		const id_order = Math.random().toString(36).substring(2, 15);
 		const dateTime = getTime(); 	
 		connection.query(
-			`INSERT INTO checkout set id_order=\'${id_order}\', id_user=${id_user}, id_product=${id_product}, total_product=${total_product}, id_address=${id_address}, total_price=${total_price}, id_payment_method=${id_payment_method}, date_checkout=${dateTime}`,
+			`INSERT INTO checkout set id_order='${id_order}', id_user=${id_user}, id_product=${id_product}, total_product=${total_product}, id_address=${id_address}, total_price=${total_price}, id_payment_method=${id_payment_method}, date_checkout='${dateTime}'`,
 			function(error, rows, field){
 				if(error){
 					console.log(error)
