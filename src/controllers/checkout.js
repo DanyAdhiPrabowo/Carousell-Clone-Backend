@@ -57,6 +57,7 @@ exports.createCheckout = function(req, res){
 	const total_price		= req.body.total_price;
 	const id_payment_method	= req.body.id_payment_method;
 
+
 	if(!id_user){
 		res.status(400).send('Id User is require');
 	}else if(!id_product){
@@ -71,7 +72,13 @@ exports.createCheckout = function(req, res){
 		connection.query(
 			`INSERT INTO checkout set id_order=\'${id_order}\', id_user=${id_user}, id_product=${id_product}, total_product=${total_product}, id_address=${id_address}, total_price=${total_price}, id_payment_method=${id_payment_method}, date_checkout=${dateTime}`,
 			function(error, rows, field){
-
+				if(error){
+					console.log(error)
+				}else{
+					return res.send({
+						data  : result,
+					})
+				}
 			}
 		)
 		
@@ -79,7 +86,7 @@ exports.createCheckout = function(req, res){
 }
 
 
-exports.deleteCheckout  = function(req, res, next){
+exports.deleteCheckout  = function(req, res){
 
 	const id_order 	= req.query.id_order;
 
@@ -102,4 +109,33 @@ exports.deleteCheckout  = function(req, res, next){
 			}
 		}
 	)
+}
+
+exports.cobaMultiple = function(req, res){
+	const id_order 			= Math.random().toString(36).substring(2, 15);
+	const id_user 			= req.body.id_user;
+	const id_product 		= req.body.id_product;
+	const total_product		= req.body.total_product;
+	const id_address		= req.body.id_address;
+	const total_price		= req.body.total_price;
+	const id_payment_method	= req.body.id_payment_method;
+	const date 				= getTime();
+	const records = [
+		                [id_order, id_user, id_product, total_product, id_address, total_price, id_payment_method, date]
+					];
+
+	let sql = "INSERT INTO checkout (id_order, id_user, id_product, total_product, id_address, total_price, id_payment_method, date_checkout) VALUES ?";
+
+
+	const query = connection.query(sql, [records], 
+
+		function(error, result) {
+		if(error){
+			console.log(error)
+		}else{
+	    	return res.send({
+				data  : result,
+			})
+		}
+	});
 }
