@@ -14,7 +14,7 @@ function getTime(){
 
 exports.getCheckout = function(req, res){
 
-	const id_order 		= req.query.id_order;
+	// const id_order 		= req.query.id_order;
 	const id_user 		= req.query.id_user;
 
 	const query 		=  `SELECT checkout.id_checkout,checkout.id_order, checkout.id_user, user.username, user.firstname, user.lastname, user.email, user.hp, checkout.id_product, checkout.total_product,checkout.total_price, product.product_name, product.price, address.address, payment_method.name_payment_method  FROM checkout
@@ -22,7 +22,7 @@ exports.getCheckout = function(req, res){
 						    INNER JOIN user ON checkout.id_user=user.id_user
 						    INNER JOIN product ON checkout.id_product=product.id_product
 						    INNER JOIN payment_method ON checkout.id_payment_method=payment_method.id_payment_method
-						    WHERE id_order=\'${id_order}\' AND id_user=${id_user}`;
+						    WHERE id_user=${id_user}`;
 		connection.query(
 			query,
 			function(error, rows, field){
