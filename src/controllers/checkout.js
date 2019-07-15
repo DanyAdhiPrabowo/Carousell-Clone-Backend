@@ -15,13 +15,14 @@ function getTime(){
 exports.getCheckout = function(req, res){
 
 	const id_order 		= req.query.id_order;
+	const id_user 		= req.query.id_user;
 
 	const query 		=  `SELECT checkout.id_checkout,checkout.id_order, checkout.id_user, user.username, user.firstname, user.lastname, user.email, user.hp, checkout.id_product, checkout.total_product,checkout.total_price, product.product_name, product.price, address.address, payment_method.name_payment_method  FROM checkout
 						    INNER JOIN address ON checkout.id_address=address.id_address
 						    INNER JOIN user ON checkout.id_user=user.id_user
 						    INNER JOIN product ON checkout.id_product=product.id_product
 						    INNER JOIN payment_method ON checkout.id_payment_method=payment_method.id_payment_method
-						    WHERE id_order=\'${id_order}\'`;
+						    WHERE id_order=\'${id_order}\' AND id_user=${id_user}`;
 		connection.query(
 			query,
 			function(error, rows, field){
@@ -77,9 +78,19 @@ exports.createCheckout = function(req, res){
 				if(error){
 					console.log(error)
 				}else{
-					return res.send({
-						data  : field,
-					})
+					connection.query(
+						`Delete from cart where id_user=?`,
+						[id_user],
+						function(err, rowss, field){
+							if(err){
+								console.log(err);
+							}else{
+								return res.send({
+									data  : rows,
+								})
+							}
+						}
+					)
 				}
 			}
 		)
