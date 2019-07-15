@@ -9,6 +9,6 @@ Route
 	.post('/', checkout.createCheckout)
 	.delete('/', checkout.deleteCheckout)
 
-	.post('/multi', checkout.cobaMultiple)
+	.post('/multi', checkout.multipleInsert)
 
 module.exports = Route;

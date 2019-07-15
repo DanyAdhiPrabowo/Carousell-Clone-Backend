@@ -17,12 +17,12 @@ exports.getCheckout = function(req, res){
 	// const id_order 		= req.query.id_order;
 	const id_user 		= req.query.id_user;
 
-	const query 		=  `SELECT checkout.id_checkout,checkout.id_order, checkout.id_user, user.username, user.firstname, user.lastname, user.email, user.hp, checkout.id_product, checkout.total_product,checkout.total_price, product.product_name, product.price, address.address, payment_method.name_payment_method  FROM checkout
-						    INNER JOIN address ON checkout.id_address=address.id_address
-						    INNER JOIN user ON checkout.id_user=user.id_user
-						    INNER JOIN product ON checkout.id_product=product.id_product
-						    INNER JOIN payment_method ON checkout.id_payment_method=payment_method.id_payment_method
-						    WHERE id_user=${id_user}`;
+
+	const query 		=  `SELECT checkout.id_checkout, checkout.id_order, checkout.id_user, checkout.id_product, checkout.total_product, checkout.total_price, product.id_user as id_seller, product.product_name, product.image as image_product, user.username, user.image as image_seller
+							FROM checkout 
+							INNER JOIN product ON checkout.id_product=product.id_product
+							INNER JOIN user ON product.id_user=user.id_user
+							WHERE checkout.id_user=${id_user}`;
 		connection.query(
 			query,
 			function(error, rows, field){
@@ -124,7 +124,7 @@ exports.deleteCheckout  = function(req, res){
 	)
 }
 
-exports.cobaMultiple = function(req, res){
+exports.multipleInsert 		= function(req, res){
 	const id_order 			= Math.random().toString(36).substring(2, 15);
 	const id_user 			= req.body.id_user;
 	const id_product 		= req.body.id_product;
@@ -152,3 +152,11 @@ exports.cobaMultiple = function(req, res){
 		}
 	});
 }
+
+
+// const query 		=  `SELECT checkout.id_checkout,checkout.id_order, checkout.id_user, user.username, user.firstname, user.lastname, user.email, user.hp, checkout.id_product, checkout.total_product,checkout.total_price, product.product_name, product.price, address.address, payment_method.name_payment_method  FROM checkout
+// 						    INNER JOIN address ON checkout.id_address=address.id_address
+// 						    INNER JOIN user ON checkout.id_user=user.id_user
+// 						    INNER JOIN product ON checkout.id_product=product.id_product
+// 						    INNER JOIN payment_method ON checkout.id_payment_method=payment_method.id_payment_method
+// 						    WHERE id_user=${id_user}`;
