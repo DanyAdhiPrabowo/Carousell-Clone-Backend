@@ -145,6 +145,31 @@ exports.createUsers = function(req, res){
 			data: {err}
 		}))
 	}
+		else {
+			const date = getTime();
+										connection.query( //insert
+											`Insert into user set username=?, password=?, email=?, date_create=?, image=?`,
+											[user, password, email, date, image],
+											function(error, rowsss, field){
+												if(error){
+													console.log(error);
+												}else{
+													connection.query(
+														`SELECT *  FROM user ORDER BY id_user DESC LIMIT 1`, function(error, rowssss, field){
+															if(error){
+																console.log(error);
+															}else{
+																return res.send({
+																	data 	: rowssss,
+																	message : "Data has been saved"
+																})
+															}
+														}
+													)
+												}
+											}
+										)
+		}
 		
 	}
 }
