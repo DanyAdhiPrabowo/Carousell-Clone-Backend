@@ -37,25 +37,25 @@ app.use('/wishlist', wishlistRoute);
 app.use('/cart', cartRoute);
 app.use('/checkout', checkoutRoute);
 
-app.use(verifyToken, (req, res, next) => {  
-	jwt.verify(req.token, 'secretkey', (err) => {
-	  	if(err) {
-			res.sendStatus(403);
-	  	}
-	  	else{
-			next()
-		}
-	});
-});
+// app.use(verifyToken, (req, res, next) => {  
+// 	jwt.verify(req.token, 'secretkey', (err) => {
+// 	  	if(err) {
+// 			res.sendStatus(403);
+// 	  	}
+// 	  	else{
+// 			next()
+// 		}
+// 	});
+// });
 
-function verifyToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-  	if(typeof authHeader !== 'undefined') {
-    	const authToken = authHeader;
-    	req.token = authToken;
-    	next();
-	}
-	else {
-    	res.sendStatus(403);
-  	}
-}
+// function verifyToken(req, res, next) {
+//     const authHeader = req.headers['authorization'];
+//   	if(typeof authHeader !== 'undefined') {
+//     	const authToken = authHeader;
+//     	req.token = authToken;
+//     	next();
+// 	}
+// 	else {
+//     	res.sendStatus(403);
+//   	}
+// }

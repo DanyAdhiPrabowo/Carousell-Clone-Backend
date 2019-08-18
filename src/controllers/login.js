@@ -8,7 +8,7 @@ const jwt        = require('jsonwebtoken');
 
 
 function encrypt(text){
-    var cipher = crypto.createCipher(algorithm,password)
+    var cipher  = crypto.createCipher(algorithm,password)
     var crypted = cipher.update(text,'utf8','hex')
     crypted += cipher.final('hex');
     return crypted;
@@ -17,7 +17,7 @@ function encrypt(text){
 exports.login = function(req, res){
     const username 		= req.body.username || '';
     const password      = req.body.password || '0';
-    let encrypted = encrypt(password)
+    let encrypted       = encrypt(password)
 	const query 		=  `SELECT * FROM user WHERE username='${username}' AND password='${encrypted}'`;
 	connection.query(
 		query,
@@ -32,9 +32,9 @@ exports.login = function(req, res){
 				if(rows!=''){
                     jwt.sign({rows}, 'secretkey', (err, token) => {
                         return res.send({
-                            status: 200,
-                            data : rows,
-                            token : token
+                            status  : 200,
+                            data    : rows,
+                            token   : token
                         })
                     });
                 }

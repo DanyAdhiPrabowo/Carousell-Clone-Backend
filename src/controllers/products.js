@@ -15,13 +15,13 @@ INNER JOIN category ON category.id_category=sub_category.id_category
 INNER JOIN user as u ON u.id_user=product.id_user `
 
 exports.getProducts = function (req, res){
-    let search = req.query.search || "";
-    let sort = req.query.sort || 0;
-    let lim = req.query.limit || 100;
-    let off = (req.query.page - 1) * lim || 0;
-    let start = req.query.start || 0;
-    let end = req.query.end || 999999999999;
-    let condition = req.query.condition || 'no';
+    let search      = req.query.search      || "";
+    let sort        = req.query.sort        || 0;
+    let lim         = req.query.limit       || 100;
+    let off         = (req.query.page - 1) * lim || 0;
+    let start       = req.query.start       || 0;
+    let end         = req.query.end         || 999999999999;
+    let condition   = req.query.condition   || 'no';
 
     //PAGING
     if(off < 0){
@@ -32,9 +32,9 @@ exports.getProducts = function (req, res){
     let maxPage;
 
     //FILTER
-    let searchBy = `product_name LIKE '%${search}%' OR brand LIKE '%${search}%'`
-    let price = `price BETWEEN ${start} AND ${end}`;
-    let cond = `\`condition\`=${condition}`;
+    let searchBy    = `product_name LIKE '%${search}%' OR brand LIKE '%${search}%'`
+    let price       = `price BETWEEN ${start} AND ${end}`;
+    let cond        = `\`condition\`=${condition}`;
 
     //WHERE QUERY
     let where = ''
